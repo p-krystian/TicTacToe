@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@import 'uniwind';
+
+@custom-variant light (&:where(.light, .light *));
+
+@theme {
+  --color-*: initial;
+  --color-primary: #dadada;
+  --color-contrast: #131313;
+  --color-shadowLight: #ffffff;
+  --color-shadowDark: #000000;
+}

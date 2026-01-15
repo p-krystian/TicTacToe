@@ -9,23 +9,19 @@
 
     "platforms": ["ios", "android", "web"],
 
-    "icon": {
-      "dark": "./assets/brand/icon.png",
-      "light": "./assets/brand/icon-light.png",
-      "tinted": "./assets/brand/icon-tinted.png"
-    },
+    "icon": "./src/assets/brand/icon.png",
     "backgroundColor": "#131313",
     "primaryColor": "#dadada",
 
     "splash": {
-      "image": "./assets/brand/icon.png",
+      "image": "./src/assets/brand/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
 
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/brand/icon.png",
+        "foregroundImage": "./src/assets/brand/icon.png",
         "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true,
@@ -33,7 +29,7 @@
     },
 
     "web": {
-      "favicon": "./assets/brand/web.png"
+      "favicon": "./src/assets/brand/web.png"
     }
   }
 }

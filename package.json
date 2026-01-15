@@ -21,12 +21,14 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",
-    "react-native-web": "^0.21.2"
+    "react-native-web": "^0.21.2",
+    "tailwindcss": "^4.1.18",
+    "uniwind": "^1.2.4"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
     "prettier": "^3.7.4",
-    "prettier-plugin-tailwind": "^2.2.12",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "~5.9.2"
   }
 }
