@@ -1,4 +1,5 @@
-import View from './View';
+import Spacer from './Spacer';
 import Text from './Text';
+import View from './View';
 
-export { View, Text };
+export { Spacer, Text, View };

@@ -1,8 +1,8 @@
-import { Text, View } from '@/components/ui';
+import { Text, View, Spacer } from '@/components/ui';
 
 function Desc() {
   return (
-    <View className="gap-4">
+    <View className="gap-3.5">
       <Text className="font-comicRelif text-4xl">{'Tic Tac Toe'}</Text>
 
       <Text>
@@ -16,6 +16,9 @@ function Desc() {
         }
       </Text>
       <Text>{'I think you know the rules. Good luck!'}</Text>
+
+      <Spacer />
+
       <Text>
         {
           'PS. The author is not responsible for damages resulting from uncontrolled emotional reactions caused by frustration after unsuccessful ending of the game.'
