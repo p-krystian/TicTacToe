@@ -16,6 +16,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@sglara/cn": "^1.0.0",
     "expo": "~54.0.31",
     "expo-status-bar": "~3.0.9",
     "react": "19.1.0",

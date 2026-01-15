@@ -1,13 +1,19 @@
 import './global.css';
 
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import Game from './components/Game/Game';
+import Desc from './components/Desc/Desc';
 
 export default function App() {
   return (
-    <View className="bg-contrast light:bg-primary flex-1 items-center justify-center">
-      <Text className="text-primary light:bg-contrast">TicTacToe</Text>
+    <View className="bg-card text-content flex-1">
       <StatusBar style="auto" />
+
+      <View>
+        <Desc />
+        <Game />
+      </View>
     </View>
   );
 }

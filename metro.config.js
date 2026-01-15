@@ -1,12 +1,19 @@
 const { getDefaultConfig } = require('expo/metro-config');
 const { withUniwindConfig } = require('uniwind/metro');
+const path = require('path');
 
 const config = getDefaultConfig(__dirname);
 
-// your metro modifications
+// Configure @ alias
+config.resolver.extraNodeModules = {
+  '@': path.resolve(__dirname, 'src'),
+};
 
 module.exports = withUniwindConfig(config, {
   cssEntryFile: './src/global.css',
   dtsFile: './src/@types/uniwind.d.ts',
-  debug: true,
+  polyfills: {
+    rem: 16
+  },
+  debug: true
 });

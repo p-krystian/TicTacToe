@@ -1,12 +1,53 @@
 @import 'tailwindcss';
 @import 'uniwind';
 
-@custom-variant light (&:where(.light, .light *));
-
 @theme {
   --color-*: initial;
-  --color-primary: #dadada;
-  --color-contrast: #131313;
-  --color-shadowLight: #ffffff;
-  --color-shadowDark: #000000;
+  --color-content: #131313;
+  --color-card: #dadada;
+  --color-shadow: #ffffff;
+
+  /** Border Radius */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /** Font Size */
+  --text-xxs: 0.625rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+}
+
+@layer theme {
+  :root {
+    @variant dark {
+      --color-content: #dadada;
+      --color-card: #131313;
+      --color-shadow: #000000;
+    }
+
+    @variant light {
+      --color-content: #131313;
+      --color-card: #dadada;
+      --color-shadow: #ffffff;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    font-size: 16px;
+  }
+  * {
+    color: var(--color-text);
+    font-size: 1rem;
+    background-color: var(--color-card);
+  }
 }
