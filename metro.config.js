@@ -13,7 +13,7 @@ module.exports = withUniwindConfig(config, {
   cssEntryFile: './src/global.css',
   dtsFile: './src/@types/uniwind.d.ts',
   polyfills: {
-    rem: 16
+    rem: 14
   },
   debug: true
 });

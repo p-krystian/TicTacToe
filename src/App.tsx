@@ -1,21 +1,37 @@
 import './global.css';
 
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
+import { ScrollView } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Desc from './components/Desc/Desc';
 import Game from './components/Game/Game';
-import { View } from './components/ui';
+
+SplashScreen.preventAutoHideAsync();
 
 function App() {
+  const [loaded, error] = useFonts({
+    'Tektur-Regular': require('./assets/fonts/Tektur-Regular.ttf'),
+    'ComicRelief-Bold': require('./assets/fonts/ComicRelief-Bold.ttf')
+  });
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
   return (
     <SafeAreaProvider>
       <StatusBar style="auto" />
 
       <SafeAreaView className="flex-1">
-        <View className="h-full gap-4 p-4">
+        <ScrollView className="h-full p-4" contentContainerClassName="items-center gap-4">
           <Desc />
           <Game />
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
   );

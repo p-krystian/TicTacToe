@@ -2,8 +2,8 @@ import { Text, View } from '@/components/ui';
 
 function Desc() {
   return (
-    <View>
-      <Text>{'Tic Tac Toe'}</Text>
+    <View className="gap-4">
+      <Text className="font-comicRelif text-4xl">{'Tic Tac Toe'}</Text>
 
       <Text>
         {

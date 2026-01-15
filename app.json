@@ -6,19 +6,15 @@
     "orientation": "default",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-
     "platforms": ["ios", "android", "web"],
-
     "icon": "./src/assets/brand/icon.png",
     "backgroundColor": "#131313",
     "primaryColor": "#dadada",
-
     "splash": {
       "image": "./src/assets/brand/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
-
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/brand/icon.png",
@@ -27,9 +23,9 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
-
     "web": {
       "favicon": "./src/assets/brand/web.png"
-    }
+    },
+    "plugins": ["expo-font"]
   }
 }
