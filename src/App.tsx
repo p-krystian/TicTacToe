@@ -1,19 +1,24 @@
 import './global.css';
 
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
-import Game from './components/Game/Game';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Desc from './components/Desc/Desc';
+import Game from './components/Game/Game';
+import { View } from './components/ui';
 
-export default function App() {
+function App() {
   return (
-    <View className="bg-card text-content flex-1">
+    <SafeAreaProvider>
       <StatusBar style="auto" />
 
-      <View>
-        <Desc />
-        <Game />
-      </View>
-    </View>
+      <SafeAreaView className="flex-1">
+        <View className="h-full gap-4 p-4">
+          <Desc />
+          <Game />
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
+
+export default App;
