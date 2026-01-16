@@ -51,7 +51,6 @@
   * {
     color: var(--color-text);
     font-size: 1rem;
-    background-color: var(--color-card);
   }
 }
 
@@ -63,4 +62,8 @@
 @utility font-comicRelif {
   font-family: 'ComicRelief-Bold';
   letter-spacing: 0.05em;
+}
+
+@utility transform-scale-250 {
+  transform: scale(2.5);
 }

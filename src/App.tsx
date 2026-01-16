@@ -3,9 +3,10 @@ import './global.css';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { ScrollView } from 'react-native';
+import { useEffect, useMemo } from 'react';
+import { ImageBackground, ScrollView } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Uniwind } from 'uniwind';
 import Desc from './components/Desc/Desc';
 import Game from './components/Game/Game';
 
@@ -17,6 +18,14 @@ function App() {
     'ComicRelief-Bold': require('./assets/fonts/ComicRelief-Bold.ttf')
   });
 
+  const bgSource = useMemo(
+    () =>
+      Uniwind.currentTheme === 'dark'
+        ? require('./assets/images/dark.png')
+        : require('./assets/images/light.png'),
+    [Uniwind.currentTheme]
+  );
+
   useEffect(() => {
     if (loaded || error) {
       SplashScreen.hideAsync();
@@ -24,15 +33,22 @@ function App() {
   }, [loaded, error]);
 
   return (
-    <SafeAreaProvider>
-      <StatusBar style="auto" />
+    <SafeAreaProvider className="max-w-full">
+      <ImageBackground
+        source={bgSource}
+        className="web:h-full!"
+        imageClassName="web:h-full! web:w-full! native:transform-scale-250"
+        imageStyle={{ resizeMode: 'repeat' }}
+      >
+        <StatusBar style="auto" />
 
-      <SafeAreaView className="flex-1">
-        <ScrollView className="h-full p-5" contentContainerClassName="items-center gap-4">
-          <Desc />
-          <Game />
-        </ScrollView>
-      </SafeAreaView>
+        <SafeAreaView className="flex-1">
+          <ScrollView className="h-full p-5" contentContainerClassName="items-center gap-4">
+            <Desc />
+            <Game />
+          </ScrollView>
+        </SafeAreaView>
+      </ImageBackground>
     </SafeAreaProvider>
   );
 }
