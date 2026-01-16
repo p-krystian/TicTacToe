@@ -9,6 +9,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Uniwind } from 'uniwind';
 import Desc from './components/Desc/Desc';
 import Game from './components/Game/Game';
+import GameBoard from './components/GameBoard/GameBoard';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,7 +46,7 @@ function App() {
         <SafeAreaView className="flex-1">
           <ScrollView className="h-full p-5" contentContainerClassName="items-center gap-4">
             <Desc />
-            <Game />
+            <GameBoard />
           </ScrollView>
         </SafeAreaView>
       </ImageBackground>
