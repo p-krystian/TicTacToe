@@ -8,6 +8,7 @@
     "tailwindcss-language-server": {
       "settings": {
         "classAttributes": [
+          "cn",
           "class",
           "className",
           "headerClassName",

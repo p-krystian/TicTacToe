@@ -12,18 +12,27 @@ type BoardFieldProps = {
 
 function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
   const contentColor = useCSSVariable('--color-content')?.toString();
-  const classNames = cn('web:text-content size-full rounded-sm', { 'bg-content': fill });
+
+  const Content = (
+    <View className={cn('size-full rounded-sm', { 'bg-content': fill })}>
+      {symbol === 'x' ? (
+        <SymbolX className="web:text-content size-full" color={contentColor} />
+      ) : symbol === 'o' ? (
+        <SymbolO className="web:text-content size-full" color={contentColor} />
+      ) : null}
+    </View>
+  );
 
   return (
-    <Pressable onPress={!symbol ? onChoose : null}>
-      <View className="bg-card size-30 p-4">
-        {symbol === 'x' ? (
-          <SymbolX className={classNames} color={contentColor} />
-        ) : symbol === 'o' ? (
-          <SymbolO className={classNames} color={contentColor} />
-        ) : null}
-      </View>
-    </Pressable>
+    <View className="bg-card size-30">
+      {!symbol ? (
+        <Pressable className="size-full p-4" onPress={onChoose}>
+          {Content}
+        </Pressable>
+      ) : (
+        <View className="size-full p-4">{Content}</View>
+      )}
+    </View>
   );
 }
 

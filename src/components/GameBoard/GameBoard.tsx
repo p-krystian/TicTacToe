@@ -101,11 +101,11 @@ function GameBoard() {
 
   return (
     <View className="bg-content border-card size-96 flex-row flex-wrap content-between justify-between border-6">
-      {Object.entries(gameState.boardState).map(([index, field]) => (
+      {Object.entries(gameState.boardState).map(([index, symbol]) => (
         <BoardField
           key={index}
-          symbol={field}
-          fill={gameState.wonSymbol === field || gameState.wonSymbol === 'xo'}
+          symbol={symbol}
+          fill={gameState.wonSymbol?.split('').includes(symbol || '')}
           onChoose={() => dispatch({ type: 'player-move', payload: index as keyof GameBoardT })}
         />
       ))}
