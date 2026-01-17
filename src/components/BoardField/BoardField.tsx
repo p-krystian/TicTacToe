@@ -1,5 +1,6 @@
 import { SymbolO, SymbolX } from '@/assets/images/svgs';
 import { View } from '@/components/ui';
+import { cn } from '@sglara/cn';
 import { Pressable } from 'react-native';
 import { useCSSVariable } from 'uniwind';
 
@@ -11,14 +12,15 @@ type BoardFieldProps = {
 
 function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
   const contentColor = useCSSVariable('--color-content')?.toString();
+  const classNames = cn('web:text-content size-full rounded-sm', { 'bg-content': fill });
 
   return (
     <Pressable onPress={!symbol ? onChoose : null}>
       <View className="bg-card size-30 p-4">
         {symbol === 'x' ? (
-          <SymbolX className="web:text-content size-full" color={contentColor} />
+          <SymbolX className={classNames} color={contentColor} />
         ) : symbol === 'o' ? (
-          <SymbolO className="web:text-content size-full" color={contentColor} />
+          <SymbolO className={classNames} color={contentColor} />
         ) : null}
       </View>
     </Pressable>
