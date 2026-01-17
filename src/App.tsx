@@ -1,5 +1,7 @@
-import './global.css';
+import '@/global.css';
 
+import Desc from '@/components/Desc/Desc';
+import GameBoard from '@/components/GameBoard/GameBoard';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -7,23 +9,20 @@ import { useEffect, useMemo } from 'react';
 import { ImageBackground, ScrollView } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Uniwind } from 'uniwind';
-import Desc from './components/Desc/Desc';
-import Game from './components/Game/Game';
-import GameBoard from './components/GameBoard/GameBoard';
 
 SplashScreen.preventAutoHideAsync();
 
 function App() {
   const [loaded, error] = useFonts({
-    'Tektur-Regular': require('./assets/fonts/Tektur-Regular.ttf'),
-    'ComicRelief-Bold': require('./assets/fonts/ComicRelief-Bold.ttf')
+    'Tektur-Regular': require('@/assets/fonts/Tektur-Regular.ttf'),
+    'ComicRelief-Bold': require('@/assets/fonts/ComicRelief-Bold.ttf')
   });
 
   const bgSource = useMemo(
     () =>
       Uniwind.currentTheme === 'dark'
-        ? require('./assets/images/dark.png')
-        : require('./assets/images/light.png'),
+        ? require('@/assets/images/dark.png')
+        : require('@/assets/images/light.png'),
     [Uniwind.currentTheme]
   );
 
