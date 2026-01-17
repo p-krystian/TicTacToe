@@ -14,7 +14,7 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
   const contentColor = useCSSVariable('--color-content')?.toString();
 
   const Content = (
-    <View className={cn('size-full rounded-sm', { 'bg-content': fill })}>
+    <View className={cn('size-full', { 'bg-content rounded-sm': fill })}>
       {symbol === 'x' ? (
         <SymbolX className="web:text-content size-full" color={contentColor} />
       ) : symbol === 'o' ? (

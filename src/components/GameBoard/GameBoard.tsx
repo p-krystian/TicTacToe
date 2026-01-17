@@ -1,116 +1,102 @@
 import BoardField from '@/components/BoardField/BoardField';
 import { View } from '@/components/ui';
 import { GameBoardT } from '@/utils/types';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 
-type ReducerAction =
-  | { type: 'player-move'; payload: keyof GameBoardT }
+type GameState = {
+  board: GameBoardT;
+  next: 'x' | 'o';
+  won: 'x' | 'o' | 'xo' | null;
+  locked: boolean;
+  botTurn: boolean;
+};
+
+const KEYS = ['A0', 'A1', 'A2', 'B0', 'B1', 'B2', 'C0', 'C1', 'C2'] as const;
+const WINS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8], // rows
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8], // cols
+  [0, 4, 8],
+  [2, 4, 6] // diags
+] as const;
+
+const checkWin = (b: GameBoardT): GameState['won'] => {
+  for (const [a, c, d] of WINS) {
+    const v = b[KEYS[a]];
+    if (v && v === b[KEYS[c]] && v === b[KEYS[d]]) return v;
+  }
+  return KEYS.every(k => b[k]) ? 'xo' : null;
+};
+
+const initState = (): GameState => {
+  const botFirst = Math.random() > 0.5;
+  return {
+    board: Object.fromEntries(KEYS.map(k => [k, null])) as GameBoardT,
+    next: Math.random() > 0.5 ? 'x' : 'o',
+    won: null,
+    locked: botFirst,
+    botTurn: botFirst
+  };
+};
+
+type Action =
+  | { type: 'move'; key: keyof GameBoardT }
   | { type: 'bot-move' }
   | { type: 'reset' }
   | { type: 'unlock' };
 
-type GameState = {
-  boardState: GameBoardT;
-  nextSymbol: 'x' | 'o';
-  wonSymbol: 'x' | 'o' | 'xo' | null;
-  isLocked: boolean;
-  isBotTurn: boolean;
-};
+const reducer = (s: GameState, a: Action): GameState => {
+  if (a.type === 'reset') return initState();
+  if (a.type === 'unlock') return { ...s, locked: false };
 
-const getInitState = () => {
-  const botFirst = Math.random() > 0.5;
+  const isBot = a.type === 'bot-move';
+  const emptyKeys = KEYS.filter(k => !s.board[k]);
+  const key = isBot ? emptyKeys[(Math.random() * emptyKeys.length) | 0] : a.key;
 
+  if ((s.locked && !isBot) || s.board[key] || s.won) return s;
+
+  const board = { ...s.board, [key]: s.next };
   return {
-    boardState: { ...fieldsBoard },
-    nextSymbol: Math.random() > 0.5 ? 'x' : 'o',
-    wonSymbol: null,
-    isLocked: botFirst,
-    isBotTurn: botFirst
-  } as GameState;
+    board,
+    next: s.next === 'x' ? 'o' : 'x',
+    won: checkWin(board),
+    locked: true,
+    botTurn: !isBot
+  };
 };
 
-// prettier-ignore
-const fieldsBoard = {
-  A0: null, A1: null, A2: null,
-  B0: null, B1: null, B2: null,
-  C0: null, C1: null, C2: null
-} as GameBoardT;
+export default function GameBoard() {
+  const [{ board, won, botTurn }, dispatch] = useReducer(reducer, null, initState);
+  const handlers = useRef<Record<string, () => void>>({});
 
-const getWonSymbol = (state: GameBoardT) => {
-  if (state.A0 === state.A1 && state.A1 === state.A2 && state.A1) return state.A0;
-  if (state.B0 === state.B1 && state.B1 === state.B2 && state.B1) return state.B0;
-  if (state.C0 === state.C1 && state.C1 === state.C2 && state.C1) return state.C0;
-
-  if (state.A0 === state.B0 && state.B0 === state.C0 && state.B0) return state.A0;
-  if (state.A1 === state.B1 && state.B1 === state.C1 && state.B1) return state.A1;
-  if (state.A2 === state.B2 && state.B2 === state.C2 && state.B2) return state.A2;
-
-  if (state.A0 === state.B1 && state.B1 === state.C2 && state.B1) return state.B1;
-  if (state.A2 === state.B1 && state.B1 === state.C0 && state.B1) return state.B1;
-
-  if (Object.values(state).every(field => field)) return 'xo';
-
-  return null;
-};
-
-function reducer(state: GameState, action: ReducerAction) {
-  const newState = { ...state };
-  const nextSymbol = state.nextSymbol === 'x' ? 'o' : 'x';
-
-  switch (action.type) {
-    case 'player-move':
-      if (state.isLocked || state.boardState[action.payload]) return state;
-      newState.boardState[action.payload] = state.nextSymbol;
-      newState.nextSymbol = nextSymbol;
-      newState.isLocked = true;
-      newState.wonSymbol = getWonSymbol(newState.boardState);
-      newState.isBotTurn = true;
-      return newState;
-    case 'bot-move':
-      if (state.wonSymbol) return state;
-      const emptyFields = Object.keys(state.boardState).filter(
-        key => !state.boardState[key as keyof GameBoardT]
-      );
-      const randomIndex = Math.floor(Math.random() * emptyFields.length);
-      const randomField = emptyFields[randomIndex] as keyof GameBoardT;
-      newState.boardState[randomField] = state.nextSymbol;
-      newState.nextSymbol = nextSymbol;
-      newState.isLocked = true;
-      newState.wonSymbol = getWonSymbol(newState.boardState);
-      newState.isBotTurn = false;
-      return newState;
-    case 'reset':
-      return getInitState();
-    case 'unlock':
-      newState.isLocked = false;
-      return newState;
+  if (!handlers.current.A0) {
+    KEYS.forEach(k => (handlers.current[k] = () => dispatch({ type: 'move', key: k })));
   }
 
-  return newState;
-}
-
-function GameBoard() {
-  const [gameState, dispatch] = useReducer(reducer, getInitState());
-
   useEffect(() => {
-    const action = gameState.wonSymbol ? 'reset' : gameState.isBotTurn ? 'bot-move' : 'unlock';
-    const timeout = setTimeout(() => dispatch({ type: action }), gameState.wonSymbol ? 2000 : 300);
-
-    return () => clearTimeout(timeout);
-  }, [gameState]);
+    const delay = won ? 2000 : 300;
+    const action: Action = won
+      ? { type: 'reset' }
+      : botTurn
+        ? { type: 'bot-move' }
+        : { type: 'unlock' };
+    const id = setTimeout(() => dispatch(action), delay);
+    return () => clearTimeout(id);
+  }, [won, botTurn]);
 
   return (
     <View className="bg-content border-card size-96 flex-row flex-wrap content-between justify-between border-6">
-      {Object.entries(gameState.boardState).map(([index, symbol]) => (
+      {KEYS.map(k => (
         <BoardField
-          key={index}
-          symbol={symbol}
-          fill={gameState.wonSymbol?.split('').includes(symbol || '')}
-          onChoose={() => dispatch({ type: 'player-move', payload: index as keyof GameBoardT })}
+          key={k}
+          symbol={board[k]}
+          fill={won?.includes(board[k] ?? '-') ?? false}
+          onChoose={handlers.current[k]}
         />
       ))}
     </View>
   );
 }
-
-export default GameBoard;
