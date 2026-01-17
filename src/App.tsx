@@ -13,6 +13,7 @@ import { Uniwind } from 'uniwind';
 SplashScreen.preventAutoHideAsync();
 
 function App() {
+  const currentTheme = Uniwind.currentTheme;
   const [loaded, error] = useFonts({
     'Tektur-Regular': require('@/assets/fonts/Tektur-Regular.ttf'),
     'ComicRelief-Bold': require('@/assets/fonts/ComicRelief-Bold.ttf')
@@ -20,10 +21,10 @@ function App() {
 
   const bgSource = useMemo(
     () =>
-      Uniwind.currentTheme === 'dark'
+      currentTheme === 'dark'
         ? require('@/assets/images/dark.png')
         : require('@/assets/images/light.png'),
-    [Uniwind.currentTheme]
+    [currentTheme]
   );
 
   useEffect(() => {
