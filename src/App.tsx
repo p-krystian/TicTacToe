@@ -28,8 +28,10 @@ function App() {
 
   useEffect(() => {
     if (loaded || error) {
-      Uniwind.setTheme(Uniwind.currentTheme);
       SplashScreen.hideAsync();
+    }
+    if (error) {
+      console.error(error);
     }
   }, [loaded, error]);
 
@@ -38,13 +40,13 @@ function App() {
       <ImageBackground
         source={bgSource}
         className="web:h-full!"
-        imageClassName="web:h-full! web:w-full! native:transform-scale-250"
-        imageStyle={{ resizeMode: 'repeat' }}
+        imageClassName="web:h-full! w-full!"
+        resizeMode="stretch"
       >
         <StatusBar style="auto" />
 
         <ScrollView
-          className="h-full p-safe"
+          className="p-safe h-full"
           contentContainerClassName="flex-1 justify-evenly min-h-full items-center gap-4 p-4"
         >
           <View className="gap-4">
