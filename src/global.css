@@ -2,11 +2,6 @@
 @import 'uniwind';
 
 @theme {
-  --color-*: initial;
-  --color-content: #131313;
-  --color-card: #dadada;
-  --color-contrast: #ffffff;
-
   /** Border Radius */
   --radius-xs: 0.25rem;
   --radius-sm: 0.5rem;
@@ -28,11 +23,13 @@
 
   /** Transitions & Shadows */
   --default-transition-duration: 350ms;
-  --shadow-center: 0 0 1rem 0 var(--tw-shadow-color);
+  --shadow-center: 0 0 1rem 0 var(--color-contrast);
 }
 
 @layer theme {
   :root {
+    font-size: 14px;
+
     @variant dark {
       --color-content: #dadada;
       --color-card: #131313;
@@ -47,27 +44,18 @@
   }
 }
 
-@layer base {
-  :root {
-    font-size: 14px;
+@layer utilities {
+  .font-tektur {
+    font-family: 'Tektur-Regular';
+    letter-spacing: 0.05em;
   }
 
-  * {
-    color: var(--color-text);
-    font-size: 1rem;
+  .font-comicRelif {
+    font-family: 'ComicRelief-Bold';
+    letter-spacing: 0.05em;
   }
-}
 
-@utility font-tektur {
-  font-family: 'Tektur-Regular';
-  letter-spacing: 0.05em;
-}
-
-@utility font-comicRelif {
-  font-family: 'ComicRelief-Bold';
-  letter-spacing: 0.05em;
-}
-
-@utility transform-scale-250 {
-  transform: scale(2.5);
+  .transform-scale-250 {
+    transform: scale(2.5);
+  }
 }
