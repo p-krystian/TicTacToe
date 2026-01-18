@@ -44,7 +44,10 @@ function App() {
         <StatusBar style="auto" />
 
         <SafeAreaView className="flex-1">
-          <ScrollView className="h-full p-5" contentContainerClassName="items-center gap-4">
+          <ScrollView
+            className="h-full"
+            contentContainerClassName="flex-1 items-center gap-4 justify-evenly p-5"
+          >
             <Desc />
             <GameBoard />
           </ScrollView>

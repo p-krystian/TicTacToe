@@ -62,7 +62,7 @@ export default function GameBoard() {
   }, [board, botTurn, wonKeys]);
 
   return (
-    <View className="bg-content border-card size-96 flex-row flex-wrap content-between justify-between border-6">
+    <View className="bg-content border-card shadow-contrast shadow-center size-96 flex-row flex-wrap content-between justify-between border-6">
       {Object.entries(board).map(([key, value]) => (
         <BoardField
           key={key}
