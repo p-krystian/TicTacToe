@@ -1,100 +1,74 @@
 import BoardField from '@/components/BoardField/BoardField';
 import { View } from '@/components/ui';
-import { GameBoardT } from '@/utils/types';
-import { useEffect, useReducer, useRef } from 'react';
+import { getCleanState, getWonKeys } from '@/utils/gameLogic';
+import { GameBoardT, GameStateT } from '@/utils/types';
+import { useCallback, useEffect, useReducer } from 'react';
 
-type GameState = {
-  board: GameBoardT;
-  next: 'x' | 'o';
-  won: 'x' | 'o' | 'xo' | null;
-  locked: boolean;
-  botTurn: boolean;
-};
-
-const KEYS = ['A0', 'A1', 'A2', 'B0', 'B1', 'B2', 'C0', 'C1', 'C2'] as const;
-const WINS = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8], // rows
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8], // cols
-  [0, 4, 8],
-  [2, 4, 6] // diags
-] as const;
-
-const checkWin = (b: GameBoardT): GameState['won'] => {
-  for (const [a, c, d] of WINS) {
-    const v = b[KEYS[a]];
-    if (v && v === b[KEYS[c]] && v === b[KEYS[d]]) return v;
-  }
-  return KEYS.every(k => b[k]) ? 'xo' : null;
-};
-
-const initState = (): GameState => {
-  const botFirst = Math.random() > 0.5;
-  return {
-    board: Object.fromEntries(KEYS.map(k => [k, null])) as GameBoardT,
-    next: Math.random() > 0.5 ? 'x' : 'o',
-    won: null,
-    locked: botFirst,
-    botTurn: botFirst
-  };
-};
-
-type Action =
+type ReducerAction =
   | { type: 'move'; key: keyof GameBoardT }
   | { type: 'bot-move' }
   | { type: 'reset' }
   | { type: 'unlock' };
 
-const reducer = (s: GameState, a: Action): GameState => {
-  if (a.type === 'reset') return initState();
-  if (a.type === 'unlock') return { ...s, locked: false };
-
-  const isBot = a.type === 'bot-move';
-  const emptyKeys = KEYS.filter(k => !s.board[k]);
-  const key = isBot ? emptyKeys[(Math.random() * emptyKeys.length) | 0] : a.key;
-
-  if ((s.locked && !isBot) || s.board[key] || s.won) return s;
-
-  const board = { ...s.board, [key]: s.next };
-  return {
-    board,
-    next: s.next === 'x' ? 'o' : 'x',
-    won: checkWin(board),
-    locked: true,
-    botTurn: !isBot
+const reducer = (state: GameStateT, action: ReducerAction): GameStateT => {
+  const onMove = (key: keyof GameBoardT, botNext: boolean) => {
+    const newState = { ...state, board: { ...state.board } };
+    newState.board[key] = newState.next;
+    newState.next = newState.next === 'x' ? 'o' : 'x';
+    newState.botTurn = botNext;
+    newState.wonKeys = getWonKeys(newState.board);
+    newState.locked = true;
+    return newState;
   };
+
+  switch (action.type) {
+    case 'move': {
+      if (state.board[action.key] || state.locked) {
+        return state;
+      }
+      return onMove(action.key, true);
+    }
+    case 'bot-move': {
+      const emptyKeys = Object.keys(state.board).filter(
+        key => !state.board[key as keyof GameBoardT]
+      );
+      const randomKey = emptyKeys[Math.floor(Math.random() * emptyKeys.length)] as keyof GameBoardT;
+      return onMove(randomKey, false);
+    }
+    case 'reset': {
+      return getCleanState();
+    }
+    case 'unlock': {
+      return { ...state, locked: false };
+    }
+  }
+  return state;
 };
 
 export default function GameBoard() {
-  const [{ board, won, botTurn }, dispatch] = useReducer(reducer, null, initState);
-  const handlers = useRef<Record<string, () => void>>({});
+  const [{ board, botTurn, wonKeys }, dispatch] = useReducer(reducer, null, getCleanState);
 
-  if (!handlers.current.A0) {
-    KEYS.forEach(k => (handlers.current[k] = () => dispatch({ type: 'move', key: k })));
-  }
+  const userMove = useCallback(
+    (key: keyof GameBoardT) => () => dispatch({ type: 'move', key: key }),
+    []
+  );
 
   useEffect(() => {
-    const delay = won ? 2000 : 300;
-    const action: Action = won
-      ? { type: 'reset' }
-      : botTurn
-        ? { type: 'bot-move' }
-        : { type: 'unlock' };
-    const id = setTimeout(() => dispatch(action), delay);
-    return () => clearTimeout(id);
-  }, [won, botTurn]);
+    const gameEnd = wonKeys.length > 0;
+    const action = gameEnd ? 'reset' : botTurn ? 'bot-move' : 'unlock';
+    const timeout = setTimeout(() => dispatch({ type: action }), gameEnd ? 2000 : 300);
+
+    return () => clearTimeout(timeout);
+  }, [board, botTurn, wonKeys]);
 
   return (
     <View className="bg-content border-card size-96 flex-row flex-wrap content-between justify-between border-6">
-      {KEYS.map(k => (
+      {Object.entries(board).map(([key, value]) => (
         <BoardField
-          key={k}
-          symbol={board[k]}
-          fill={won?.includes(board[k] ?? '-') ?? false}
-          onChoose={handlers.current[k]}
+          key={key}
+          symbol={value}
+          fill={wonKeys.includes(key)}
+          onChoose={wonKeys.length ? null : userMove(key as keyof GameBoardT)}
         />
       ))}
     </View>

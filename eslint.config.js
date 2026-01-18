@@ -5,5 +5,10 @@ module.exports = defineConfig([
   expoConfig,
   {
     ignores: ['dist/*']
+  },
+  {
+    rules: {
+      curly: ['error', 'all']
+    }
   }
 ]);

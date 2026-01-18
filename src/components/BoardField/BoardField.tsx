@@ -1,13 +1,14 @@
 import { SymbolO, SymbolX } from '@/assets/images/svgs';
 import { View } from '@/components/ui';
 import { cn } from '@sglara/cn';
+import { memo } from 'react';
 import { Pressable } from 'react-native';
 import { useCSSVariable } from 'uniwind';
 
 type BoardFieldProps = {
   symbol: 'x' | 'o' | null;
   fill?: boolean;
-  onChoose?: () => void;
+  onChoose?: (() => void) | null;
 };
 
 function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
@@ -25,7 +26,7 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
 
   return (
     <View className="bg-card size-30">
-      {!symbol ? (
+      {!symbol && !!onChoose ? (
         <Pressable className="size-full p-4" onPress={onChoose}>
           {Content}
         </Pressable>
@@ -36,4 +37,4 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
   );
 }
 
-export default BoardField;
+export default memo(BoardField);

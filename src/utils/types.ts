@@ -10,4 +10,12 @@ type GameBoardT = {
   C2: 'x' | 'o' | null;
 };
 
-export { type GameBoardT };
+type GameStateT = {
+  board: GameBoardT;
+  next: 'x' | 'o';
+  wonKeys: (keyof GameBoardT)[number][];
+  locked: boolean;
+  botTurn: boolean;
+};
+
+export { type GameBoardT, type GameStateT };
