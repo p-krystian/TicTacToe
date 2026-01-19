@@ -30,6 +30,20 @@
   :root {
     font-size: 14px;
 
+    @media (min-width: 1024px) {
+      font-size: 18px;
+    }
+    @media (min-width: 1280px) {
+      font-size: 22px;
+    }
+    @media (min-width: 1536px) {
+      font-size: 27px;
+    }
+    @media (min-width: 1792px) {
+      font-size: 32px;
+    }
+
+
     @variant dark {
       --color-content: #dadada;
       --color-card: #131313;
