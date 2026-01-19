@@ -7,7 +7,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo } from 'react';
-import { ImageBackground, ScrollView } from 'react-native';
+import { ImageBackground, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaListener } from 'react-native-safe-area-context';
 import { Uniwind, useUniwind } from 'uniwind';
 
@@ -15,6 +15,7 @@ SplashScreen.preventAutoHideAsync();
 
 function App() {
   const { theme } = useUniwind();
+  const { width, height } = useWindowDimensions();
   const [loaded, error] = useFonts({
     'Tektur-Regular': require('@/assets/fonts/Tektur-Regular.ttf'),
     'ComicRelief-Bold': require('@/assets/fonts/ComicRelief-Bold.ttf')
@@ -39,15 +40,15 @@ function App() {
     <SafeAreaListener onChange={({ insets }) => Uniwind.updateInsets(insets)}>
       <ImageBackground
         source={bgSource}
-        className="web:h-full!"
+        className="flex-1"
         imageClassName="web:h-full! w-full! native:scale-200"
         resizeMode="repeat"
       >
-        <StatusBar style="auto" />
+        <StatusBar style="auto" hidden={width >= height} />
 
         <ScrollView
-          className="p-safe h-full"
-          contentContainerClassName="flex-1 justify-evenly min-h-full items-center gap-4 p-4"
+          className="flex-1"
+          contentContainerClassName="grow justify-evenly items-center gap-4 p-safe-offset-4"
         >
           <View className="gap-4">
             <Desc />
