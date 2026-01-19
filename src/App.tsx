@@ -35,7 +35,7 @@ function App() {
     }
   }, [loaded, error]);
 
-  return (
+  return !loaded && !error ? null : (
     <SafeAreaListener onChange={({ insets }) => Uniwind.updateInsets(insets)}>
       <ImageBackground
         source={bgSource}
