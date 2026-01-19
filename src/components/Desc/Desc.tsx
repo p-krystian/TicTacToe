@@ -1,4 +1,4 @@
-import { Text, View, Spacer } from '@/components/ui';
+import { Spacer, Text, View } from '@/components/ui';
 
 function Desc() {
   return (

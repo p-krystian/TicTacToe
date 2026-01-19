@@ -46,13 +46,10 @@ function App() {
       >
         <StatusBar style="auto" hidden={width >= height} />
 
-        <ScrollView
-          className="flex-1"
-          contentContainerClassName="grow justify-evenly items-center gap-4 p-safe-offset-4"
-        >
-          <View className="gap-4">
+        <ScrollView contentContainerClassName="main-container">
+          <View className="gap-4 landscape:max-w-md">
             <Desc />
-            <View className="flex-row items-center justify-evenly gap-4 py-2">
+            <View className="flex-row items-center justify-evenly gap-4 py-1">
               <Button title="Polski" />
               <Button
                 title="Change theme"
@@ -60,8 +57,9 @@ function App() {
               />
             </View>
           </View>
-
-          <GameBoard />
+          <View className="grow items-center justify-center">
+            <GameBoard />
+          </View>
         </ScrollView>
       </ImageBackground>
     </SafeAreaListener>

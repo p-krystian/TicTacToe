@@ -59,3 +59,11 @@
     transform: scale(2.5);
   }
 }
+
+.main-container {
+  @apply p-safe-offset-4 mx-auto max-w-lg grow items-center justify-evenly gap-4;
+
+  @media (orientation: landscape) {
+    @apply max-w-full flex-row flex-wrap content-center gap-8;
+  }
+}
