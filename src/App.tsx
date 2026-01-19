@@ -40,8 +40,8 @@ function App() {
       <ImageBackground
         source={bgSource}
         className="web:h-full!"
-        imageClassName="web:h-full! w-full!"
-        resizeMode="stretch"
+        imageClassName="web:h-full! w-full! native:scale-200"
+        resizeMode="repeat"
       >
         <StatusBar style="auto" />
 
