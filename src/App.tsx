@@ -1,5 +1,6 @@
 import '@/global.css';
 
+import { dark, light } from '@/assets/images/bgs';
 import Desc from '@/components/Desc/Desc';
 import GameBoard from '@/components/GameBoard/GameBoard';
 import { Button, View } from '@/components/ui';
@@ -21,11 +22,7 @@ function App() {
     'ComicRelief-Bold': require('@/assets/fonts/ComicRelief-Bold.ttf')
   });
 
-  const bgSource = useMemo(
-    () =>
-      theme === 'dark' ? require('@/assets/images/dark.png') : require('@/assets/images/light.png'),
-    [theme]
-  );
+  const bgSource = useMemo(() => (theme === 'dark' ? dark : light), [theme]);
 
   useEffect(() => {
     if (loaded || error) {
