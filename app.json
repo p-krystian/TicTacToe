@@ -32,7 +32,7 @@
           "backgroundColor": "#dadada",
           "image": "./src/assets/brand/icon-light.png",
           "dark": {
-            "image": "./src/assets/brand/icon-dark.png",
+            "image": "./src/assets/brand/icon.png",
             "backgroundColor": "#131313"
           },
           "imageWidth": 200

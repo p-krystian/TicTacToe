@@ -11,6 +11,7 @@
   "author": "Krystian Piątek",
   "scripts": {
     "dev": "expo start",
+    "dev:offline": "expo start  --offline",
     "android": "expo run:android",
     "android:prod": "expo run:android --variant release",
     "ios": "expo run:ios",

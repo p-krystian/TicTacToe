@@ -7,11 +7,10 @@ import { Button, View } from '@/components/ui';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { ImageBackground, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaListener } from 'react-native-safe-area-context';
 import { Uniwind, useUniwind } from 'uniwind';
-
 SplashScreen.preventAutoHideAsync();
 
 function App() {
@@ -21,8 +20,6 @@ function App() {
     'Tektur-Regular': require('@/assets/fonts/Tektur-Regular.ttf'),
     'ComicRelief-Bold': require('@/assets/fonts/ComicRelief-Bold.ttf')
   });
-
-  const bgSource = useMemo(() => (theme === 'dark' ? dark : light), [theme]);
 
   useEffect(() => {
     if (loaded || error) {
@@ -36,7 +33,7 @@ function App() {
   return !loaded && !error ? null : (
     <SafeAreaListener onChange={({ insets }) => Uniwind.updateInsets(insets)}>
       <ImageBackground
-        source={bgSource}
+        source={theme === 'dark' ? dark : light}
         className="flex-1"
         imageClassName="web:h-full! w-full! native:scale-200"
         resizeMode="repeat"
