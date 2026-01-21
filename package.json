@@ -32,7 +32,8 @@
     "react-native-svg-transformer": "^1.5.2",
     "react-native-web": "^0.21.2",
     "tailwindcss": "^4.1.18",
-    "uniwind": "^1.2.4"
+    "uniwind": "^1.2.4",
+    "zustand": "^5.0.10"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
