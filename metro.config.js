@@ -16,7 +16,27 @@ config.transformer = {
 config.resolver = {
   ...config.resolver,
   assetExts: config.resolver.assetExts.filter(ext => ext !== 'svg'),
-  sourceExts: [...config.resolver.sourceExts, 'svg']
+  sourceExts: [...config.resolver.sourceExts, 'svg'],
+  // Force CommonJS resolution for zustand to avoid import.meta issues on web
+  resolveRequest: (context, moduleName, platform) => {
+    if (platform === 'web' && moduleName.startsWith('zustand')) {
+      const projectRoot = context.projectRoot || __dirname;
+      
+      if (moduleName === 'zustand') {
+        return {
+          filePath: path.join(projectRoot, 'node_modules/zustand/index.js'),
+          type: 'sourceFile',
+        };
+      }
+      if (moduleName === 'zustand/middleware') {
+        return {
+          filePath: path.join(projectRoot, 'node_modules/zustand/middleware.js'),
+          type: 'sourceFile',
+        };
+      }
+    }
+    return context.resolveRequest(context, moduleName, platform);
+  }
 };
 
 module.exports = withUniwindConfig(config, {
