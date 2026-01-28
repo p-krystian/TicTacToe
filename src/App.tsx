@@ -5,16 +5,19 @@ import Desc from '@/components/Desc/Desc';
 import GameBoard from '@/components/GameBoard/GameBoard';
 import { Button, View } from '@/components/ui';
 import usePreferences from '@/stores/preferences';
+import '@/utils/i18n';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ImageBackground, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaListener } from 'react-native-safe-area-context';
 import { Uniwind } from 'uniwind';
 SplashScreen.preventAutoHideAsync();
 
 function App() {
+  const { t, i18n } = useTranslation();
   const theme = usePreferences(state => state.theme);
   const { toggleTheme } = usePreferences(state => state.actions);
 
@@ -51,8 +54,8 @@ function App() {
           <View className="gap-4 landscape:max-w-md">
             <Desc />
             <View className="flex-row items-center justify-evenly gap-4 py-1">
-              <Button title="Polski" />
-              <Button title="Change theme" onPress={toggleTheme} />
+              <Button title="Polski" onPress={() => i18n.changeLanguage('pl')} />
+              <Button title={t('changeTheme')} onPress={toggleTheme} />
             </View>
           </View>
           <View className="grow items-center justify-center">

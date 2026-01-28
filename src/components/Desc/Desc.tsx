@@ -1,29 +1,20 @@
 import { Spacer, Text, View } from '@/components/ui';
+import { useTranslation } from 'react-i18next';
 
 function Desc() {
+  const { t } = useTranslation();
+
   return (
     <View className="gap-3.5">
-      <Text className="font-comicRelif text-4xl">{'Tic Tac Toe'}</Text>
+      <Text className="font-comicRelif text-4xl">{t('title')}</Text>
 
-      <Text>
-        {
-          'Probably the most hardcore strategy game you have ever dealt with. Fasten your seatbelt and hold on tight!'
-        }
-      </Text>
-      <Text>
-        {
-          "In this installment, you have a chance to face the bot, i.e. a combination of ones and zeros that are already in your computer's RAM!"
-        }
-      </Text>
-      <Text>{'I think you know the rules. Good luck!'}</Text>
+      <Text>{t('desc0')}</Text>
+      <Text>{t('desc1')}</Text>
+      <Text>{t('desc2')}</Text>
 
       <Spacer />
 
-      <Text>
-        {
-          'PS. The author is not responsible for damages resulting from uncontrolled emotional reactions caused by frustration after unsuccessful ending of the game.'
-        }
-      </Text>
+      <Text>{t('warning')}</Text>
     </View>
   );
 }
