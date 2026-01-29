@@ -1,6 +1,6 @@
 import i18n from '@/utils/i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Uniwind } from 'node_modules/uniwind/dist/module/core/config/config.common';
+import { Uniwind } from 'uniwind';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { PreferenceStoreT, OmittedFields } from './constants';
