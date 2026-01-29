@@ -4,22 +4,26 @@ import { dark, light } from '@/assets/images/bgs';
 import Desc from '@/components/Desc/Desc';
 import GameBoard from '@/components/GameBoard/GameBoard';
 import { Button, View } from '@/components/ui';
-import usePreferences from '@/stores/preferences';
+import usePreferences from '@/stores/preference/store';
 import '@/utils/i18n';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImageBackground, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaListener } from 'react-native-safe-area-context';
 import { Uniwind } from 'uniwind';
+import { translations } from './assets/langs';
+import { setLanguage, toggleTheme } from './stores/preference/setters';
+
 SplashScreen.preventAutoHideAsync();
 
 function App() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const stateInitialized = usePreferences(state => state._hasInitialized);
   const theme = usePreferences(state => state.theme);
-  const { toggleTheme } = usePreferences(state => state.actions);
+  const language = usePreferences(state => state.language);
 
   const { width, height } = useWindowDimensions();
   const [loaded, error] = useFonts({
@@ -28,19 +32,23 @@ function App() {
   });
 
   useEffect(() => {
-    if (loaded || error) {
+    if ((loaded || error) && stateInitialized) {
       SplashScreen.hideAsync();
     }
     if (error) {
       console.error(error);
     }
-  }, [loaded, error]);
+  }, [loaded, error, stateInitialized]);
 
-  useEffect(() => {
-    Uniwind.setTheme(theme);
-  }, [theme]);
+  const [nextLangCode, nextLangName] = useMemo(() => {
+    const keys = Object.keys(translations) as (keyof typeof translations)[];
+    const nextIndex = (keys.indexOf(language) + 1) % keys.length;
+    const nextCode = keys[nextIndex];
 
-  return !loaded && !error ? null : (
+    return [nextCode, translations[nextCode].name] as const;
+  }, [language]);
+
+  return (!loaded && !error) || !stateInitialized ? null : (
     <SafeAreaListener onChange={({ insets }) => Uniwind.updateInsets(insets)}>
       <ImageBackground
         source={theme === 'dark' ? dark : light}
@@ -54,7 +62,7 @@ function App() {
           <View className="gap-4 landscape:max-w-md">
             <Desc />
             <View className="flex-row items-center justify-evenly gap-4 py-1">
-              <Button title="Polski" onPress={() => i18n.changeLanguage('pl')} />
+              <Button title={nextLangName} onPress={() => setLanguage(nextLangCode)} />
               <Button title={t('changeTheme')} onPress={toggleTheme} />
             </View>
           </View>
