@@ -12,15 +12,16 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImageBackground, ScrollView, useWindowDimensions } from 'react-native';
-import { SafeAreaListener } from 'react-native-safe-area-context';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Uniwind } from 'uniwind';
 import { translations } from './assets/langs';
 import { setLanguage, toggleTheme } from './stores/preference/setters';
 
 SplashScreen.preventAutoHideAsync();
 
-function App() {
+function AppContent() {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const stateInitialized = usePreferences(state => state._hasInitialized);
   const theme = usePreferences(state => state.theme);
   const language = usePreferences(state => state.language);
@@ -30,6 +31,10 @@ function App() {
     'Tektur-Regular': require('@/assets/fonts/Tektur-Regular.ttf'),
     'ComicRelief-Bold': require('@/assets/fonts/ComicRelief-Bold.ttf')
   });
+
+  useEffect(() => {
+    Uniwind.updateInsets(insets);
+  }, [insets]);
 
   useEffect(() => {
     if ((loaded || error) && stateInitialized) {
@@ -49,8 +54,7 @@ function App() {
   }, [language]);
 
   return (!loaded && !error) || !stateInitialized ? null : (
-    <SafeAreaListener onChange={({ insets }) => Uniwind.updateInsets(insets)}>
-      <ImageBackground
+    <ImageBackground
         source={theme === 'dark' ? dark : light}
         className="flex-1"
         imageClassName="web:h-full! w-full! native:scale-200"
@@ -71,7 +75,14 @@ function App() {
           </View>
         </ScrollView>
       </ImageBackground>
-    </SafeAreaListener>
+  );
+}
+
+function App() {
+  return (
+    <SafeAreaProvider>
+      <AppContent />
+    </SafeAreaProvider>
   );
 }
 
