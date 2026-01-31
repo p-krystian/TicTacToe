@@ -1,8 +1,8 @@
 import { cn } from '@sglara/cn';
 import { View, ViewProps } from 'react-native';
 
-const StyledText = ({ className, ...props }: ViewProps) => (
+const StyledView = ({ className, ...props }: ViewProps) => (
   <View {...props} className={cn('', className)} />
 );
 
-export default StyledText;
+export default StyledView;
