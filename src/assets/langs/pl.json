@@ -7,5 +7,9 @@
 
   "warning": "PS. Autor nie ponosi odpowiedzialności za szkody wynikłe w wyniku niekontrolowanych reakcji emocjonalnych wywołanych frustracją po niepomyślnym zakończeniu rozgrywki.",
 
-  "changeTheme": "Zmień motyw"
+  "changeTheme": "Zmień motyw",
+
+  "pressToChoose": "Naciśnij, aby umieścić swój symbol tutaj",
+  "xSymbol": "X",
+  "oSymbol": "O"
 }

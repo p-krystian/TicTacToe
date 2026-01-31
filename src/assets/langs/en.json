@@ -7,5 +7,9 @@
 
   "warning": "PS. The author is not responsible for damages resulting from uncontrolled emotional reactions caused by frustration after unsuccessful ending of the game.",
 
-  "changeTheme": "Change Theme"
+  "changeTheme": "Change Theme",
+
+  "pressToChoose": "Press to place your symbol here",
+  "xSymbol": "X",
+  "oSymbol": "O"
 }

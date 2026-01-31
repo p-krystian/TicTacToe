@@ -1,14 +1,7 @@
-type GameBoardT = {
-  A0: 'x' | 'o' | null;
-  A1: 'x' | 'o' | null;
-  A2: 'x' | 'o' | null;
-  B0: 'x' | 'o' | null;
-  B1: 'x' | 'o' | null;
-  B2: 'x' | 'o' | null;
-  C0: 'x' | 'o' | null;
-  C1: 'x' | 'o' | null;
-  C2: 'x' | 'o' | null;
-};
+type BoardKey = 'A0' | 'A1' | 'A2' | 'B0' | 'B1' | 'B2' | 'C0' | 'C1' | 'C2';
+type CellValue = 'x' | 'o' | null;
+
+type GameBoardT = Record<BoardKey, CellValue>;
 
 type GameStateT = {
   board: GameBoardT;
