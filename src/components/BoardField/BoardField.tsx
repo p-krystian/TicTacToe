@@ -1,8 +1,9 @@
 import { SymbolO, SymbolX } from '@/assets/images/svgs';
 import { View } from '@/components/ui';
-import { cn } from '@sglara/cn';
-import { memo } from 'react';
+import useTransitionDuration from '@/hooks/useTransitionDuration';
+import { memo, useMemo } from 'react';
 import { Pressable } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useCSSVariable } from 'uniwind';
 
 type BoardFieldProps = {
@@ -13,25 +14,46 @@ type BoardFieldProps = {
 
 function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
   const contentColor = useCSSVariable('--color-content')?.toString();
+  const transitionDuration = useTransitionDuration();
 
-  const Content = (
-    <View className={cn('size-full', { 'bg-content rounded-sm': fill })}>
-      {symbol === 'x' ? (
-        <SymbolX className="web:text-content size-full" color={contentColor} />
-      ) : symbol === 'o' ? (
-        <SymbolO className="web:text-content size-full" color={contentColor} />
-      ) : null}
-    </View>
+  const [InFade, OutFade] = useMemo(
+    () => [FadeIn.duration(transitionDuration), FadeOut.duration(transitionDuration)],
+    [transitionDuration]
+  );
+
+  const content = useMemo(
+    () => (
+      <View className="relative isolate size-full overflow-hidden rounded-sm">
+        {fill && (
+          <Animated.View
+            entering={InFade}
+            exiting={OutFade}
+            className="bg-content absolute inset-0 z-10 size-full"
+          />
+        )}
+
+        {!fill && symbol === 'x' ? (
+          <Animated.View entering={InFade} exiting={OutFade}>
+            <SymbolX className="web:text-content size-full" color={contentColor} />
+          </Animated.View>
+        ) : !fill && symbol === 'o' ? (
+          <Animated.View entering={InFade} exiting={OutFade}>
+            <SymbolO className="web:text-content size-full" color={contentColor} />
+          </Animated.View>
+        ) : null}
+      </View>
+    ),
+    [symbol, fill, contentColor, InFade, OutFade]
   );
 
   return (
     <View className="bg-card size-30">
       {!symbol && !!onChoose ? (
         <Pressable className="size-full p-4" onPress={onChoose}>
-          {Content}
+          {content}
         </Pressable>
       ) : (
-        <View className="size-full p-4">{Content}</View>
+        <View className="size-full p-4">{content}</View>
       )}
     </View>
   );

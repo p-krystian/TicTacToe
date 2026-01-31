@@ -1,5 +1,6 @@
 import BoardField from '@/components/BoardField/BoardField';
 import { View } from '@/components/ui';
+import useTransitionDuration from '@/hooks/useTransitionDuration';
 import { getCleanState, getWonKeys } from '@/utils/gameLogic';
 import { GameBoardT, GameStateT } from '@/utils/types';
 import { useCallback, useEffect, useReducer } from 'react';
@@ -45,8 +46,10 @@ const reducer = (state: GameStateT, action: ReducerAction): GameStateT => {
   return state;
 };
 
-export default function GameBoard() {
+function GameBoard() {
   const [{ board, botTurn, wonKeys }, dispatch] = useReducer(reducer, null, getCleanState);
+  const unlockTimeout = useTransitionDuration('default');
+  const resetTimeout = useTransitionDuration('xSlow');
 
   const userMove = useCallback(
     (key: keyof GameBoardT) => () => dispatch({ type: 'move', key: key }),
@@ -56,10 +59,13 @@ export default function GameBoard() {
   useEffect(() => {
     const gameEnd = wonKeys.length > 0;
     const action = gameEnd ? 'reset' : botTurn ? 'bot-move' : 'unlock';
-    const timeout = setTimeout(() => dispatch({ type: action }), gameEnd ? 2000 : 300);
+    const timeout = setTimeout(
+      () => dispatch({ type: action }),
+      gameEnd ? Math.max(500, resetTimeout) : unlockTimeout
+    );
 
     return () => clearTimeout(timeout);
-  }, [board, botTurn, wonKeys]);
+  }, [board, botTurn, wonKeys, unlockTimeout, resetTimeout]);
 
   return (
     <View className="bg-content border-card shadow-center size-96 flex-row flex-wrap content-between justify-between border-6">
@@ -74,3 +80,5 @@ export default function GameBoard() {
     </View>
   );
 }
+
+export default GameBoard;

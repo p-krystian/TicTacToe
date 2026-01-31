@@ -22,7 +22,7 @@
   --text-5xl: 3rem;
 
   /** Transitions & Shadows */
-  --default-transition-duration: 350ms;
+  --default-transition-duration: 250ms;
   --shadow-center: 0 0 1rem 0 var(--color-contrast);
 }
 
