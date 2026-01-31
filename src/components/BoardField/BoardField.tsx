@@ -16,13 +16,14 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
   const contentColor = useCSSVariable('--color-content')?.toString();
   const transitionDuration = useTransitionDuration();
 
-  const [InFade, OutFade] = useMemo(
-    () => [FadeIn.duration(transitionDuration), FadeOut.duration(transitionDuration)],
-    [transitionDuration]
-  );
+  const content = useMemo(() => {
+    const [InFade, OutFade] = [
+      FadeIn.duration(transitionDuration),
+      FadeOut.duration(transitionDuration)
+    ];
+    const SymbolComponent = symbol === 'x' ? SymbolX : symbol === 'o' ? SymbolO : null;
 
-  const content = useMemo(
-    () => (
+    return (
       <View className="relative isolate size-full overflow-hidden rounded-sm">
         {fill && (
           <Animated.View
@@ -32,19 +33,14 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
           />
         )}
 
-        {!fill && symbol === 'x' ? (
+        {!fill && SymbolComponent && (
           <Animated.View entering={InFade} exiting={OutFade}>
-            <SymbolX className="web:text-content size-full" color={contentColor} />
+            <SymbolComponent className="web:text-content size-full" color={contentColor} />
           </Animated.View>
-        ) : !fill && symbol === 'o' ? (
-          <Animated.View entering={InFade} exiting={OutFade}>
-            <SymbolO className="web:text-content size-full" color={contentColor} />
-          </Animated.View>
-        ) : null}
+        )}
       </View>
-    ),
-    [symbol, fill, contentColor, InFade, OutFade]
-  );
+    );
+  }, [transitionDuration, symbol, fill, contentColor]);
 
   return (
     <View className="bg-card size-30">
