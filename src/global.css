@@ -47,12 +47,14 @@
       --color-content: #dadada;
       --color-card: #131313;
       --color-contrast: #000000;
+      --color-focused: #ffffff20;
     }
 
     @variant light {
       --color-content: #131313;
       --color-card: #dadada;
       --color-contrast: #ffffff;
+      --color-focused: #00000040;
     }
   }
 }
@@ -74,6 +76,10 @@
 
   .prominent-text {
     text-shadow: 0 0 0.3rem var(--color-contrast);
+  }
+
+  .focus-bg {
+    background-color: var(--color-focused);
   }
 }
 

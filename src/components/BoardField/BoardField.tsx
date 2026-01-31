@@ -1,7 +1,8 @@
 import { SymbolO, SymbolX } from '@/assets/images/svgs';
 import { View } from '@/components/ui';
 import useTransitionDuration from '@/hooks/useTransitionDuration';
-import { memo, useMemo } from 'react';
+import { cn } from '@sglara/cn';
+import { memo, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
@@ -17,6 +18,7 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
   const contentColor = useCSSVariable('--color-content')?.toString();
   const transitionDuration = useTransitionDuration();
   const { t } = useTranslation();
+  const [isFocused, setIsFocused] = useState(false);
 
   const content = useMemo(() => {
     const [InFade, OutFade] = [
@@ -53,10 +55,17 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
     <View className="bg-card size-30">
       {!symbol && !!onChoose ? (
         <Pressable
-          className="size-full p-4"
-          onPress={onChoose}
+          className={cn({ 'size-full p-4 outline-none': true, 'focus-bg': isFocused })}
+          onPress={() => {
+            onChoose();
+            setIsFocused(false);
+          }}
           accessibilityRole="button"
           accessibilityLabel={t('pressToChoose')}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onHoverIn={() => setIsFocused(true)}
+          onHoverOut={() => setIsFocused(false)}
         >
           {content}
         </Pressable>

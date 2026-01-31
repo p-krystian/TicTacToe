@@ -1,4 +1,5 @@
 import { cn } from '@sglara/cn';
+import { useState } from 'react';
 import { Pressable, PressableProps, Text } from 'react-native';
 
 type StyledButtonProps = PressableProps & {
@@ -7,17 +8,33 @@ type StyledButtonProps = PressableProps & {
   children?: never;
 };
 
-const StyledButton = ({ title, className, textClassName, ...props }: StyledButtonProps) => (
-  <Pressable accessibilityRole="button" {...props} className={cn('px-2 py-2', className)}>
-    <Text
-      className={cn(
-        'text-content font-comicRelif prominent-text px-2 text-center text-lg uppercase select-none',
-        textClassName
-      )}
+const StyledButton = ({ title, className, textClassName, ...props }: StyledButtonProps) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      {...props}
+      className={cn({
+        'px-2 py-2 outline-none rounded-sm': true,
+        'focus-bg': isFocused,
+        className
+      })}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      onHoverIn={() => setIsFocused(true)}
+      onHoverOut={() => setIsFocused(false)}
     >
-      {title}
-    </Text>
-  </Pressable>
-);
+      <Text
+        className={cn(
+          'text-content font-comicRelif prominent-text px-2 text-center text-lg uppercase select-none',
+          textClassName
+        )}
+      >
+        {title}
+      </Text>
+    </Pressable>
+  );
+};
 
 export default StyledButton;
