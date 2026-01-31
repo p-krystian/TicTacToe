@@ -43,7 +43,6 @@
       font-size: 32px;
     }
 
-
     @variant dark {
       --color-content: #dadada;
       --color-card: #131313;
@@ -72,6 +71,10 @@
   .transform-scale-250 {
     transform: scale(2.5);
   }
+
+  .prominent-text {
+    text-shadow: 0 0 0.3rem var(--color-contrast);
+  }
 }
 
 .main-container {
@@ -80,4 +83,9 @@
   @media (orientation: landscape) {
     @apply max-w-full flex-row flex-wrap content-center gap-8;
   }
+}
+
+::selection {
+  background: var(--color-content);
+  color: var(--color-card);
 }

@@ -11,7 +11,7 @@ const StyledButton = ({ title, className, textClassName, ...props }: StyledButto
   <Pressable {...props} className={cn('px-2 py-2', className)}>
     <Text
       className={cn(
-        'text-content font-comicRelif px-2 text-center text-lg uppercase select-none',
+        'text-content font-comicRelif prominent-text px-2 text-center text-lg uppercase select-none',
         textClassName
       )}
     >
