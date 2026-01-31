@@ -1,4 +1,5 @@
 import '@/global.css';
+import '@/utils/i18n';
 
 import { dark, light } from '@/assets/images/bgs';
 import Desc from '@/components/Desc/Desc';
@@ -6,9 +7,8 @@ import GameBoard from '@/components/GameBoard/GameBoard';
 import LangSwitcher from '@/components/LangSwitcher/LangSwitcher';
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
 import { View } from '@/components/ui';
+import useAppReady from '@/hooks/useAppReady';
 import usePreferences from '@/stores/preference/store';
-import '@/utils/i18n';
-import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -20,29 +20,27 @@ SplashScreen.preventAutoHideAsync();
 
 function AppContent() {
   const insets = useSafeAreaInsets();
-  const stateInitialized = usePreferences(state => state._hasInitialized);
   const theme = usePreferences(state => state.theme);
-
   const { width, height } = useWindowDimensions();
-  const [loaded, error] = useFonts({
-    'Tektur-Regular': require('@/assets/fonts/Tektur-Regular.ttf'),
-    'ComicRelief-Bold': require('@/assets/fonts/ComicRelief-Bold.ttf')
-  });
+  const { isReady, fontError } = useAppReady();
 
   useEffect(() => {
     Uniwind.updateInsets(insets);
   }, [insets]);
 
   useEffect(() => {
-    if ((loaded || error) && stateInitialized) {
+    if (isReady) {
       SplashScreen.hideAsync();
     }
-    if (error) {
-      console.error(error);
-    }
-  }, [loaded, error, stateInitialized]);
+  }, [isReady]);
 
-  return (!loaded && !error) || !stateInitialized ? null : (
+  useEffect(() => {
+    if (fontError) {
+      console.error(fontError);
+    }
+  }, [fontError]);
+
+  return !isReady ? null : (
     <ImageBackground
       source={theme === 'dark' ? dark : light}
       className="flex-1"
