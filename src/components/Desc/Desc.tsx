@@ -6,7 +6,9 @@ function Desc() {
 
   return (
     <View className="gap-3.5">
-      <Text className="font-comicRelif text-4xl">{t('title')}</Text>
+      <Text accessibilityRole="header" className="font-comicRelif text-4xl">
+        {t('title')}
+      </Text>
 
       <Text>{t('desc0')}</Text>
       <Text>{t('desc1')}</Text>

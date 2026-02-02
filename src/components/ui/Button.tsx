@@ -15,11 +15,7 @@ const StyledButton = ({ title, className, textClassName, ...props }: StyledButto
     <Pressable
       accessibilityRole="button"
       {...props}
-      className={cn({
-        'px-2 py-2 outline-none rounded-sm': true,
-        'focus-bg': isFocused,
-        className
-      })}
+      className={cn('rounded-sm px-2 py-2 outline-none', { 'focus-bg': isFocused }, className)}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       onHoverIn={() => setIsFocused(true)}

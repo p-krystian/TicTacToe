@@ -55,7 +55,7 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
     <View className="bg-card size-30">
       {!symbol && !!onChoose ? (
         <Pressable
-          className={cn({ 'size-full p-4 outline-none': true, 'focus-bg': isFocused })}
+          className={cn('size-full p-4 outline-none', { 'focus-bg': isFocused })}
           onPress={() => {
             onChoose();
             setIsFocused(false);
