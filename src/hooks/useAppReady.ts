@@ -1,5 +1,7 @@
 import usePreference from '@/stores/preference/store';
 import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 
 function useAppReady() {
   const stateInitialized = usePreference(state => state._hasInitialized);
@@ -9,7 +11,21 @@ function useAppReady() {
     'ComicRelief-Bold': require('@/assets/fonts/ComicRelief-Bold.ttf')
   });
 
-  return { isReady: (fontsLoaded || fontError) && stateInitialized, fontError };
+  const isReady = (fontsLoaded || fontError) && stateInitialized;
+
+  useEffect(() => {
+    if (fontError) {
+      console.error('[Font Loading Error]', fontError);
+    }
+  }, [fontError]);
+
+  useEffect(() => {
+    if (isReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [isReady]);
+
+  return { isReady };
 }
 
 export default useAppReady;

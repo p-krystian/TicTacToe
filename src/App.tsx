@@ -8,37 +8,20 @@ import LangSwitcher from '@/components/LangSwitcher/LangSwitcher';
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
 import { View } from '@/components/ui';
 import useAppReady from '@/hooks/useAppReady';
+import useInsetsUpdate from '@/hooks/useInsetsUpdate';
 import usePreferences from '@/stores/preference/store';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
 import { ImageBackground, ScrollView, useWindowDimensions } from 'react-native';
-import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Uniwind } from 'uniwind';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
 
 function AppContent() {
-  const insets = useSafeAreaInsets();
   const theme = usePreferences(state => state.theme);
   const { width, height } = useWindowDimensions();
-  const { isReady, fontError } = useAppReady();
-
-  useEffect(() => {
-    Uniwind.updateInsets(insets);
-  }, [insets]);
-
-  useEffect(() => {
-    if (isReady) {
-      SplashScreen.hideAsync();
-    }
-  }, [isReady]);
-
-  useEffect(() => {
-    if (fontError) {
-      console.error(fontError);
-    }
-  }, [fontError]);
+  const { isReady } = useAppReady();
+  useInsetsUpdate();
 
   return !isReady ? null : (
     <ImageBackground
