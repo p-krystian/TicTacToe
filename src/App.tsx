@@ -29,10 +29,14 @@ function AppContent() {
       className="flex-1"
       imageClassName="web:h-full! w-full! native:scale-200"
       resizeMode="repeat"
+      accessible={false}
+      importantForAccessibility="no-hide-descendants"
     >
       <StatusBar style="auto" hidden={width >= height} />
 
-      <ScrollView contentContainerClassName="main-container">
+      <ScrollView 
+        contentContainerClassName="main-container"
+      >
         <View className="gap-4 landscape:max-w-md">
           <Desc />
           <View className="flex-row items-center justify-evenly gap-4 py-1">

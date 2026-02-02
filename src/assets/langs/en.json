@@ -11,5 +11,13 @@
 
   "pressToChoose": "Press to place your symbol here",
   "xSymbol": "X",
-  "oSymbol": "O"
+  "oSymbol": "O",
+
+  "gameBoard": "Tic Tac Toe game board",
+  "gameDraw": "Game ended in a draw",
+  "gameWon": "{{symbol}} won the game",
+  "botTurn": "Bot's turn",
+  "yourTurn": "Your turn, place {{symbol}}",
+  "position": "Row {{row}}, Column {{col}}",
+  "empty": "Empty"
 }

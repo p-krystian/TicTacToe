@@ -11,5 +11,13 @@
 
   "pressToChoose": "Naciśnij, aby umieścić swój symbol tutaj",
   "xSymbol": "X",
-  "oSymbol": "O"
+  "oSymbol": "O",
+
+  "gameBoard": "Plansza gry kółko i krzyżyk",
+  "gameDraw": "Gra zakończona remisem",
+  "gameWon": "{{symbol}} wygrał grę",
+  "botTurn": "Ruch bota",
+  "yourTurn": "Twój ruch, postaw {{symbol}}",
+  "position": "Wiersz {{row}}, Kolumna {{col}}",
+  "empty": "Puste"
 }

@@ -12,9 +12,10 @@ type BoardFieldProps = {
   symbol: 'x' | 'o' | null;
   fill?: boolean;
   onChoose?: (() => void) | null;
+  position?: string;
 };
 
-function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
+function BoardField({ symbol, fill = false, onChoose, position }: BoardFieldProps) {
   const contentColor = useCSSVariable('--color-content')?.toString();
   const transitionDuration = useTransitionDuration();
   const { t } = useTranslation();
@@ -51,6 +52,21 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
     );
   }, [transitionDuration, symbol, fill, contentColor, t]);
 
+  const accessibilityLabel = useMemo(() => {
+    if (position) {
+      const row = position[0];
+      const col = parseInt(position[1]) + 1;
+      const positionLabel = t('position', { row, col });
+
+      if (symbol) {
+        const symbolLabel = symbol === 'x' ? t('xSymbol') : t('oSymbol');
+        return `${positionLabel}, ${symbolLabel}`;
+      }
+      return `${positionLabel}, ${t('empty')}`;
+    }
+    return symbol ? (symbol === 'x' ? t('xSymbol') : t('oSymbol')) : t('pressToChoose');
+  }, [position, symbol, t]);
+
   return (
     <View className="bg-card size-30">
       {!symbol && !!onChoose ? (
@@ -61,7 +77,7 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
             setIsFocused(false);
           }}
           accessibilityRole="button"
-          accessibilityLabel={t('pressToChoose')}
+          accessibilityLabel={accessibilityLabel}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onHoverIn={() => setIsFocused(true)}
@@ -70,7 +86,9 @@ function BoardField({ symbol, fill = false, onChoose }: BoardFieldProps) {
           {content}
         </Pressable>
       ) : (
-        <View className="size-full p-4">{content}</View>
+        <View className="size-full p-4" accessibilityLabel={accessibilityLabel}>
+          {content}
+        </View>
       )}
     </View>
   );
