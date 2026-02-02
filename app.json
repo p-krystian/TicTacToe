@@ -22,7 +22,8 @@
       "package": "com.pkrystian.TicTacToe"
     },
     "web": {
-      "favicon": "./src/assets/brand/web.png"
+      "favicon": "./src/assets/brand/web.png",
+      "output": "single"
     },
     "plugins": [
       "expo-font",
@@ -38,6 +39,10 @@
           "imageWidth": 200
         }
       ]
-    ]
+    ],
+    "experiments": {
+      "baseUrl": "./",
+      "reactCompiler": false
+    }
   }
 }

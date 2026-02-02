@@ -13,6 +13,7 @@ import useInsetsUpdate from '@/hooks/useInsetsUpdate';
 import usePreferences from '@/stores/preference/store';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import { StrictMode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ImageBackground, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -54,11 +55,13 @@ function AppContent() {
 
 function App() {
   return (
-    <SafeAreaProvider>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <AppContent />
-      </ErrorBoundary>
-    </SafeAreaProvider>
+    <StrictMode>
+      <SafeAreaProvider>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <AppContent />
+        </ErrorBoundary>
+      </SafeAreaProvider>
+    </StrictMode>
   );
 }
 
