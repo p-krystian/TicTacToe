@@ -35,7 +35,14 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+expo-env.d.ts
 
 # generated native folders
 /ios
-/android
+
+# user added
+__pycache__
+.env
+*.jks
+*.aab
+sentry.properties
