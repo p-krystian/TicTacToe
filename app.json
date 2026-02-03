@@ -3,10 +3,10 @@
     "name": "TicTacToe",
     "slug": "TicTacToe",
     "version": "2.0.0",
-    "newArchEnabled": true,
     "platforms": ["ios", "android", "web"],
     "icon": "./src/assets/brand/icon.png",
     "backgroundColor": "#131313",
+    "userInterfaceStyle": "dark light",
     "splash": {
       "image": "./src/assets/brand/icon.png",
       "resizeMode": "contain",
@@ -23,7 +23,13 @@
     },
     "web": {
       "favicon": "./src/assets/brand/web.png",
-      "output": "single"
+      "output": "single",
+      "splash": {
+        "image": "./src/assets/brand/icon.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#131313"
+      },
+      "backgroundColor": "#131313"
     },
     "plugins": [
       "expo-font",
@@ -38,10 +44,19 @@
           },
           "imageWidth": 200
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableBundleCompression": true,
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
       ]
     ],
     "experiments": {
-      "baseUrl": "./",
       "reactCompiler": false
     }
   }

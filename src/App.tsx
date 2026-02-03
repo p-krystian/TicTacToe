@@ -8,12 +8,12 @@ import GameBoard from '@/components/GameBoard/GameBoard';
 import LangSwitcher from '@/components/LangSwitcher/LangSwitcher';
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
 import { View } from '@/components/ui';
-import useAppReady from '@/hooks/useAppReady';
 import useInsetsUpdate from '@/hooks/useInsetsUpdate';
-import usePreferences from '@/stores/preference/store';
+import usePreference from '@/stores/preference/store';
+import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { StrictMode } from 'react';
+import { StrictMode, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ImageBackground, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -21,10 +21,27 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 SplashScreen.preventAutoHideAsync();
 
 function AppContent() {
-  const theme = usePreferences(state => state.theme);
+  const theme = usePreference(state => state.theme);
+  const stateInitialized = usePreference(state => state._hasInitialized);
   const { width, height } = useWindowDimensions();
-  const { isReady } = useAppReady();
+  const [fontsLoaded, fontError] = useFonts({
+    'Tektur-Regular': require('@/assets/fonts/Tektur-Regular.ttf'),
+    'ComicRelief-Bold': require('@/assets/fonts/ComicRelief-Bold.ttf')
+  });
   useInsetsUpdate();
+  const isReady = (fontsLoaded || fontError) && stateInitialized;
+
+  useEffect(() => {
+    if (fontError) {
+      console.error('[Font Loading Error]', fontError);
+    }
+  }, [fontError]);
+
+  useEffect(() => {
+    if (isReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [isReady]);
 
   return !isReady ? null : (
     <ImageBackground
