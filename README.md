@@ -104,11 +104,3 @@ cd android && ./gradlew bundleRelease -Pandroid.bundle=true
 
 - APKs: `android/app/build/outputs/apk/release/`
 - AAB: `android/app/build/outputs/bundle/release/app-release.aab`
-
-### CI/CD Setup
-
-For GitHub Actions, add these repository secrets:
-
-- `KEYSTORE_BASE64` - Base64 encoded keystore file
-- `KEYSTORE_PASSWORD` - Your keystore password
-- `KEY_PASSWORD` - Your key password
