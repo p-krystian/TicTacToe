@@ -2,6 +2,9 @@
   "languages": {
     "CSS": {
       "language_servers": ["tailwindcss-language-server"]
+    },
+    "Shell Script": {
+      "formatter": "language_server"
     }
   },
   "lsp": {
