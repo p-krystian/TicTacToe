@@ -13,8 +13,9 @@
     "dev:offline": "expo start  --offline",
     "android": "expo run:android",
     "android:prod": "expo run:android --variant release",
-    "ios": "expo run:ios",
     "web": "expo start --web",
+    "web:prod": "expo export -p web",
+    "ios": "expo run:ios",
     "lint": "expo lint"
   },
   "dependencies": {
