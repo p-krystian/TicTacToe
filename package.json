@@ -18,8 +18,7 @@
     "web:prod": "expo export -p web",
     "ios": "expo run:ios",
     "lint": "expo lint",
-    "windows": "npx @react-native-community/cli run-windows",
-    "test:windows": "jest --config jest.config.windows.js"
+    "windows": "react-native run-windows"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
