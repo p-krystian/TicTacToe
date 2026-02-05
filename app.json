@@ -2,8 +2,12 @@
   "expo": {
     "name": "TicTacToe",
     "slug": "TicTacToe",
-    "version": "2.0.0",
-    "platforms": ["ios", "android", "web"],
+    "version": "2.0.1",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "icon": "./src/assets/brand/icon.png",
     "backgroundColor": "#131313",
     "userInterfaceStyle": "dark light",
