@@ -45,6 +45,9 @@ jobs:
           fileDir: android/app
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
+      - name: Clean generated builds
+        run: rm -rf android/app/build/generated/
+
       - name: Build APK
         env:
           NODE_ENV: 'production'
