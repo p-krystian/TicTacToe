@@ -41,6 +41,7 @@ echo "Creating git tag"
 git tag -a "v$NEXT_VERSION" -m "Release $NEXT_VERSION"
 
 read -p "Push to origin? (Y/N): " confirm && [[ $confirm == [yY] ]] || exit
+git push
 git push --tags
 
 echo ""
