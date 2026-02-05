@@ -42,6 +42,9 @@
     @media (min-width: 1792px) {
       font-size: 32px;
     }
+    @media (min-width: 2048px) {
+      font-size: 36px;
+    }
 
     @variant dark {
       --color-content: #dadada;

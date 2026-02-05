@@ -62,7 +62,7 @@ function AppContent() {
             <ThemeSwitcher />
           </View>
         </View>
-        <View className="grow items-center justify-center">
+        <View className="grow items-center justify-center landscape:grow-0">
           <GameBoard />
         </View>
       </ScrollView>
