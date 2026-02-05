@@ -69,27 +69,18 @@ function BoardField({ symbol, fill = false, onChoose, position }: BoardFieldProp
 
   return (
     <View className="bg-card size-30">
-      {!symbol && !!onChoose ? (
-        <Pressable
-          className={cn('size-full p-4 outline-none', { 'focus-bg': isFocused })}
-          onPress={() => {
-            onChoose();
-            setIsFocused(false);
-          }}
-          accessibilityRole="button"
-          accessibilityLabel={accessibilityLabel}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          onHoverIn={() => setIsFocused(true)}
-          onHoverOut={() => setIsFocused(false)}
-        >
-          {content}
-        </Pressable>
-      ) : (
-        <View className="size-full p-4" accessibilityLabel={accessibilityLabel}>
-          {content}
-        </View>
-      )}
+      <Pressable
+        className={cn('size-full p-4 outline-none', { 'focus-bg': isFocused })}
+        onPress={!symbol ? onChoose : null}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        onHoverIn={() => setIsFocused(true)}
+        onHoverOut={() => setIsFocused(false)}
+      >
+        {content}
+      </Pressable>
     </View>
   );
 }
