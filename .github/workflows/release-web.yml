@@ -32,11 +32,18 @@ jobs:
       - name: Build assets
         run: pnpm run web:prod
 
-      - name: Upload dist files
+      - name: Archive built content
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'zip'
+          filename: 'web-dist.zip'
+          directory: 'dist'
+
+      - name: Upload ZIP
         uses: actions/upload-artifact@v4
         with:
           name: web-release
-          path: dist/*
+          path: dist/web-dist.zip
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
