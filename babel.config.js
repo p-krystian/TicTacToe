@@ -6,13 +6,15 @@ module.exports = function (api) {
   api.cache(false); 
 
   return {
-    presets: ['babel-preset-expo'],
+    presets: [
+      // Pass the required polyfill setting directly to the expo preset
+      ['babel-preset-expo', { unstable_transformImportMeta: true }]
+    ],
     plugins: [
       [
         'module-resolver',
         {
           root: ['./'],
-          // Added .css so Babel doesn't skip your global.css file
           extensions: [
             '.windows.tsx', '.windows.ts', '.windows.js', 
             '.tsx', '.ts', '.jsx', '.js', '.json', '.css'
