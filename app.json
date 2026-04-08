@@ -10,7 +10,7 @@
     ],
     "icon": "./src/assets/brand/icon.png",
     "backgroundColor": "#131313",
-    "userInterfaceStyle": "dark light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/brand/icon.png",
       "resizeMode": "contain",
@@ -21,7 +21,6 @@
       "supportsTablet": true
     },
     "android": {
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.pkrystian.TicTacToe"
     },
