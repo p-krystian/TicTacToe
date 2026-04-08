@@ -12,13 +12,12 @@
   "scripts": {
     "dev": "expo start",
     "dev:offline": "expo start --offline",
-    "dev:electron": "concurrently \"expo start --web\" \"wait-on http://localhost:8081 && electron electron/main.js\"",
     "android": "expo run:android",
     "android:prod": "expo run:android --variant release",
     "web": "expo start --web",
     "web:prod": "expo export -p web",
-    "build:web": "expo export -p web",
-    "build:electron": "pnpm run build:web && electron-builder",
+    "electron": "concurrently \"expo start --web\" \"wait-on http://localhost:8081 && electron electron/main.js\"",
+    "electron:prod": "pnpm run web:prod && electron-builder",
     "ios": "expo run:ios",
     "lint": "expo lint"
   },
