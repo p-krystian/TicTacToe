@@ -2,7 +2,7 @@
   "name": "tictactoe",
   "private": true,
   "main": "index.ts",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple TicTacToe game.",
   "repository": {
     "type": "git",
