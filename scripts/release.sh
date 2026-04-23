@@ -1,7 +1,9 @@
 #!/bin/bash
 NEXT_VERSION="0.0.0"
+NEXT_VERSION_CODE="0"
 CURRENT_VERSION="$(git describe --tags --abbrev=0)"
 CURRENT_VERSION="${CURRENT_VERSION:1}"
+CURRENT_VERSION_CODE=$(grep -oP 'versionCode \K[0-9]+' android/app/build.gradle)
 
 function version_le() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1"; }
 
@@ -10,14 +12,19 @@ if [ -n "$(git status --porcelain)" ]; then
   git status --short
   exit 1
 fi
+
+echo "Current version is: $CURRENT_VERSION"
 read -p "Enter new version in format x.y.z: " NEXT_VERSION
+
+echo "Current versionCode (android) is: $CURRENT_VERSION_CODE"
+read -p "Enter new versionCode: " NEXT_VERSION_CODE
 
 if version_le "$NEXT_VERSION" "$CURRENT_VERSION"; then
   echo "Version $NEXT_VERSION is not greater than $CURRENT_VERSION. Exiting..."
   exit 1
 fi
 
-echo "Updating from $CURRENT_VERSION to $NEXT_VERSION"
+echo "Updating to $NEXT_VERSION ($NEXT_VERSION_CODE)"
 echo ""
 
 cd $(dirname $(realpath "$0"))
@@ -31,6 +38,7 @@ jq --arg version "$NEXT_VERSION" '.expo.version = $version' app.json > tmp.json 
 
 echo "Updating android/app/build.gradle"
 sed -i "s/versionName \".*\"/versionName \"$NEXT_VERSION\"/" android/app/build.gradle
+sed -i "s/versionCode [0-9]\+/versionCode $NEXT_VERSION_CODE/" android/app/build.gradle
 
 echo ""
 
